@@ -25,7 +25,7 @@ public class JuegosServlet extends HttpServlet {
         String action = request.getParameter("a") == null ? "listar" : request.getParameter("a");
         switch (action) {
             case "listar":
-                //request.setAttribute("lista", juegosDaos.listarJuegos());
+                request.setAttribute("lista", juegosDaos.listarJuegos());
                 //request.setAttribute("perfil", cuentasDaos.perfil());
                 // request.setAttribute("lista4",juegosDaos.listarNotificaciones());
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("usuario/indexUsuarioOficial.jsp");
@@ -40,7 +40,7 @@ public class JuegosServlet extends HttpServlet {
                 break;
             case "verjuego":
                 int juegoId = Integer.parseInt(request.getParameter("id"));
-                //request.setAttribute("juegos", juegosDaos.listar(juegoId));
+                request.setAttribute("juegos", juegosDaos.listar(juegoId));
                 //request.setAttribute("perfil", cuentasDaos.perfil());
                 //request.setAttribute("lista4",juegosDaos.listarNotificaciones());
                 request.getRequestDispatcher("usuario/verJuego.jsp").forward(request, response);

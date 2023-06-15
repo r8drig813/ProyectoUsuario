@@ -9,7 +9,7 @@ import java.util.Comparator;
 public class JuegosDaos {
     /*-------------------USUARIOS----------------------------*/
 
-    /*public ArrayList<Juegos> listarJuegos(){
+    public ArrayList<Juegos> listarJuegos(){
         ArrayList<Juegos> lista = new ArrayList<>();
 
         try {
@@ -18,7 +18,7 @@ public class JuegosDaos {
             e.printStackTrace();
         }
 
-        String sql = "select * from juegos ";
+        String sql = "select * from juego ";
         String url = "jdbc:mysql://localhost:3306/mydb";
         try (Connection connection = DriverManager.getConnection(url, "root", "root");
              Statement stmt = connection.createStatement();
@@ -31,10 +31,12 @@ public class JuegosDaos {
                 juegos.setDescripcion(resultSet.getString(3));
                 juegos.setPrecio(resultSet.getDouble(4));
                 juegos.setDescuento(resultSet.getDouble(5));
-                juegos.setStock(resultSet.getInt(6));
-                juegos.setFoto(resultSet.getString(7));
-                juegos.setRetirar_juego(resultSet.getBoolean(8));
-                juegos.setJuego_sugerido(resultSet.getBoolean(9));
+                juegos.setStock(resultSet.getInt(11));
+                juegos.setFoto(resultSet.getString(6));
+                juegos.setExistente(resultSet.getBoolean(7));
+                juegos.setHabilitado(resultSet.getBoolean(8));
+                juegos.setConsola(resultSet.getString(9));
+                juegos.setGenero(resultSet.getString(10));
                 lista.add(juegos);
             }
 
@@ -54,25 +56,27 @@ public class JuegosDaos {
             e.printStackTrace();
         }
 
-        String sql = "select * from juegos where idJuegos = ?";
+        String sql = "select * from juego where idJuego = ?";
         String url = "jdbc:mysql://localhost:3306/mydb";
         try (Connection connection = DriverManager.getConnection(url, "root", "root");
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setInt(1, juegoId);
 
-            try (ResultSet rs = preparedStatement.executeQuery()) {
-                if (rs.next()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
                     juegos = new Juegos();
-                    juegos.setIdJuegos(rs.getInt(1));
-                    juegos.setNombre(rs.getString(2));
-                    juegos.setDescripcion(rs.getString(3));
-                    juegos.setPrecio(rs.getDouble(4));
-                    juegos.setDescuento(rs.getDouble(5));
-                    juegos.setStock(rs.getInt(6));
-                    juegos.setFoto(rs.getString(7));
-                    juegos.setRetirar_juego(rs.getBoolean(8));
-                    juegos.setJuego_sugerido(rs.getBoolean(9));
+                    juegos.setIdJuegos(resultSet.getInt(1));
+                    juegos.setNombre(resultSet.getString(2));
+                    juegos.setDescripcion(resultSet.getString(3));
+                    juegos.setPrecio(resultSet.getDouble(4));
+                    juegos.setDescuento(resultSet.getDouble(5));
+                    juegos.setStock(resultSet.getInt(11));
+                    juegos.setFoto(resultSet.getString(6));
+                    juegos.setExistente(resultSet.getBoolean(7));
+                    juegos.setHabilitado(resultSet.getBoolean(8));
+                    juegos.setConsola(resultSet.getString(9));
+                    juegos.setGenero(resultSet.getString(10));
                 }
             }
 
@@ -81,7 +85,7 @@ public class JuegosDaos {
         }
         return juegos;
     }
-
+    /*
     public ArrayList<Juegos> buscarPorTitle(String title) {
         ArrayList<Juegos> lista = new ArrayList<>();
 
