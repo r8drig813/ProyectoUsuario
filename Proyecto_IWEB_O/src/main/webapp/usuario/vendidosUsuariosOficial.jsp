@@ -236,30 +236,30 @@
                         <td><%=vu.getEstados().getEstados()%>
                         </td>
                         <td> <% if (vu.getEstados().getEstados().equals("pendiente")){ %>
-                            <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?p=actualizar&id=<%=vu.getIdVenta()%>">Retirar Propuesta</a>
+                            <a onclick="return confirm('¿ Estas de retirar tu propuesta ?')" class="btn btn-primary"
+                               href="<%=request.getContextPath()%>/JuegosServlet?a=actualizarVenta&id=<%=vu.getIdVenta()%>">Retirar Propuesta</a>
                             <%}%>
 
                             <% if (vu.getEstados().getEstados().equals("aceptado")){ %>
-                            <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
+                            <a onclick="return confirm('¿ Ya vendio el juego pero esta seguro de Eliminar ?')" class="btn btn-primary"
+                               href="<%=request.getContextPath()%>/JuegosServlet?a=eliminarVenta&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
                             <%}%>
                             <% if (vu.getEstados().getEstados().equals("no aceptado")){ %>
                             <a href="<%=request.getContextPath()%>/JuegosServlet?a=verjuego&id=<%=vu.getIdVenta()%>" class="btn btn-dark">Ver Precio Sugerido</a>
                             <a href="<%=request.getContextPath()%>/JuegosServlet?a=listarNotificaciones" class="btn btn-dark">Modificar Precio</a>
-                            <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
+                            <a onclick="return confirm('¿ Estas de retirar tu propuesta ?')" class="btn btn-primary"
+                               href="<%=request.getContextPath()%>/JuegosServlet?a=actualizarVenta&id=<%=vu.getIdVenta()%>">Retirar Propuesta</a>
                             <%}%>
 
                             <% if (vu.getEstados().getEstados().equals("rechazado")){ %>
                             <a href="<%=request.getContextPath()%>/JuegosServlet?a=listarNotificaciones" class="btn btn-dark" >Ver Motivo</a>
-                            <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
+                            <a onclick="return confirm('¿ Estas de retirar tu propuesta ?')" class="btn btn-primary"
+                               href="<%=request.getContextPath()%>/JuegosServlet?a=actualizarVenta&id=<%=vu.getIdVenta()%>">Retirar Propuesta</a>
                             <%}%>
 
                             <% if (vu.getEstados().getEstados().equals("retirado")){ %>
-                            <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
+                            <a onclick="return confirm('¿ Estas seguro de Eliminar ?')" class="btn btn-primary"
+                               href="<%=request.getContextPath()%>/JuegosServlet?a=eliminarVenta&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
                             <%}%>
 
                         </td>

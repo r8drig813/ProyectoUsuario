@@ -107,6 +107,17 @@ public class JuegosServlet extends HttpServlet {
                 //request.setAttribute("listar",juegosDaos.listarOfertas());
                 request.getRequestDispatcher("usuario/ofertasUsuarioOficial.jsp").forward(request,response);
                 break;
+            case "actualizarVenta":
+                String id3 =request.getParameter("id");
+                juegosDaos.actualizarEstadoVenta(id3);
+                response.sendRedirect(request.getContextPath() + "/JuegosServlet");
+                break;
+
+            case "eliminarVenta":
+                String id4 =request.getParameter("id");
+                juegosDaos.eliminarVenta(id4);
+                response.sendRedirect(request.getContextPath() + "/JuegosServlet");
+                break;
 
         }
     }
@@ -135,17 +146,17 @@ public class JuegosServlet extends HttpServlet {
 
                 response.sendRedirect(request.getContextPath() + "/JuegosServlet?a=listar1");
                 break;
-            case "actualizar":
+            /*case "actualizar":
                 VentaUsuario ventaUsuario = parseVendidos(request);
                 juegosDaos.actualizar(ventaUsuario);
                 response.sendRedirect(request.getContextPath()+ "/JuegosServlet");
-                break;
+                break;*/
 
         }
 
     }
 
-    public VentaUsuario parseVendidos(HttpServletRequest request)  {
+    /*public VentaUsuario parseVendidos(HttpServletRequest request)  {
 
         VentaUsuario ventaUsuario = new VentaUsuario();
         String idVenta = request.getParameter("idVenta") != null ? request.getParameter("idVentas") : "";
@@ -162,7 +173,7 @@ public class JuegosServlet extends HttpServlet {
 
         }
         return ventaUsuario;
-    }
+    }*/
 
     /*public JuegosVendidosNuevos parseJuegosVendidosNuevos(HttpServletRequest request) {
 

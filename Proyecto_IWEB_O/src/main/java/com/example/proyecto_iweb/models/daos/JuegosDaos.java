@@ -255,7 +255,7 @@ public class JuegosDaos {
         String sql = "SELECT * FROM ventausuario vu\n" +
                 "inner join juego j on j.idJuego = vu.idJuego\n" +
                 "inner join estados e on vu.idEstados = e.idEstados\n" +
-                "where vu.idUsuario = 114;";
+                "where vu.idUsuario = 114 and vu.idEstados != 8;";
 
         String url = "jdbc:mysql://localhost:3306/mydb";
         try (Connection connection = DriverManager.getConnection(url, "root", "root");
@@ -339,7 +339,7 @@ public class JuegosDaos {
         return lista2;
     }
 
-    public void actualizar(VentaUsuario ventaUsuario) {
+    public void actualizarEstadoVenta(String idVenta) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -347,11 +347,32 @@ public class JuegosDaos {
         }
 
         String url = "jdbc:mysql://localhost:3306/mydb";
-        String sql = "update ventausuario set idEstados = 4 where idVenta = ?";
+        String sql = "update ventausuario set idEstados = 5 where idVenta = ?";
         try (Connection connection = DriverManager.getConnection(url, "root", "root");
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-            pstmt.setInt(1, ventaUsuario.getIdVenta());
+            pstmt.setInt(1, Integer.parseInt(idVenta));
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void eliminarVenta(String idVenta) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String url = "jdbc:mysql://localhost:3306/mydb";
+        String sql = "update ventausuario set idEstados = 8 where idVenta = ?";
+        try (Connection connection = DriverManager.getConnection(url, "root", "root");
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, Integer.parseInt(idVenta));
 
             pstmt.executeUpdate();
 
