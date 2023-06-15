@@ -5,6 +5,7 @@ public class VentaUsuario {
     private int idVenta;
     private int idUsuario;
     private int idJuego;
+    private Juegos juegos;
     private double precioVenta;
     private String mensajeAdmin;
     private int idEstados;
@@ -12,6 +13,14 @@ public class VentaUsuario {
     private boolean idAdmin;
     private Cuentas usuario;
     private Cuentas admin;
+
+    public Juegos getJuegos() {
+        return juegos;
+    }
+
+    public void setJuegos(Juegos juegos) {
+        this.juegos = juegos;
+    }
 
     public Cuentas getUsuario() {
         return usuario;

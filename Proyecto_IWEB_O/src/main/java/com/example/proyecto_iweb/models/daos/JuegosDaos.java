@@ -1,17 +1,15 @@
 package com.example.proyecto_iweb.models.daos;
 
-import com.example.proyecto_iweb.models.beans.ComprasVentas;
-import com.example.proyecto_iweb.models.beans.Estados;
-import com.example.proyecto_iweb.models.beans.Juegos;
-import com.example.proyecto_iweb.models.beans.JuegosVendidosNuevos;
+import com.example.proyecto_iweb.models.beans.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class JuegosDaos {
     /*-------------------USUARIOS----------------------------*/
 
-    public ArrayList<Juegos> listarJuegos(){
+    /*public ArrayList<Juegos> listarJuegos(){
         ArrayList<Juegos> lista = new ArrayList<>();
 
         try {
@@ -244,20 +242,20 @@ public class JuegosDaos {
     }
 
     */
-    public ArrayList<ComprasVentas> listarVendidos() {
+    public ArrayList<VentaUsuario> listarVendidos(/*int id*/) {
+
         ArrayList<Juegos> lista = new ArrayList<>();
-        ArrayList<ComprasVentas> lista2 = new ArrayList<>();
+        ArrayList<VentaUsuario> lista2 = new ArrayList<>();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        String sql = "select * from compras_ventas cv\n" +
-                "inner join juegos j on cv.Juegos_idJuegos = j.idJuegos\n" +
-                "inner join estados e on cv.Estados_idEstados = e.idEstados\n" +
-                "inner join compras_ventas_has_cuentas cvc on cvc.Compras_ventas_idCompras_ventas = cv.idCompras_ventas\n" +
-                "where cv.compra_o_venta = 1 and cvc.Cuentas_idCuentas = 100";
+        String sql = "SELECT * FROM ventausuario vu\n" +
+                "inner join juego j on j.idJuego = vu.idJuego\n" +
+                "inner join estados e on vu.idEstados = e.idEstados\n" +
+                "where vu.idUsuario = 114;";
 
         String url = "jdbc:mysql://localhost:3306/mydb";
         try (Connection connection = DriverManager.getConnection(url, "root", "root");
@@ -265,25 +263,23 @@ public class JuegosDaos {
              ResultSet resultSet = stmt.executeQuery(sql)) {
 
             while (resultSet.next()) {
-                ComprasVentas comprasVentas = new ComprasVentas();
+                VentaUsuario ventaUsuario = new VentaUsuario();
+                ventaUsuario.setIdVenta(resultSet.getInt(1));
+                ventaUsuario.setPrecioVenta(resultSet.getInt(4));
+                ventaUsuario.setMensajeAdmin(resultSet.getString(5));
 
-                comprasVentas.setIdComprasVentas(resultSet.getInt(1));
-                comprasVentas.setPrecioTotal(resultSet.getInt(2));
-                comprasVentas.setDescripcionEstado(resultSet.getString(4));
-                comprasVentas.setCantidad(resultSet.getInt(5));
-                comprasVentas.setCompraVenta(resultSet.getInt(8));
                 Juegos juegos = new Juegos();
-
-                juegos.setIdJuegos(resultSet.getInt("j.idJuegos"));
-                juegos.setNombre(resultSet.getString("nombre"));
-                comprasVentas.setJuegos(juegos);
+                juegos.setIdJuegos(resultSet.getInt(8));
+                juegos.setNombre(resultSet.getString(9));
+                juegos.setFoto(resultSet.getString(13));
+                ventaUsuario.setJuegos(juegos);
 
                 Estados estados = new Estados();
-                estados.setIdEstados(resultSet.getInt("e.idEstados"));
-                estados.setNombreEstado(resultSet.getString("nombre_estado"));
-                comprasVentas.setEstados(estados);
+                estados.setIdEstados(resultSet.getInt(19));
+                estados.setEstados(resultSet.getString(20));
+                ventaUsuario.setEstados(estados);
 
-                lista2.add(comprasVentas);
+                lista2.add(ventaUsuario);
             }
 
         } catch (SQLException e) {
@@ -293,9 +289,9 @@ public class JuegosDaos {
         return lista2;
     }
 
-    public ArrayList<ComprasVentas> listarComprados() {
+    public ArrayList<CompraUsuario> listarComprados(/*int id*/) {
         ArrayList<Juegos> lista = new ArrayList<>();
-        ArrayList<ComprasVentas> lista2 = new ArrayList<>();
+        ArrayList<CompraUsuario> lista2 = new ArrayList<>();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -303,39 +299,37 @@ public class JuegosDaos {
             e.printStackTrace();
         }
 
-        String sql = "select * from compras_ventas cv\n" +
-                "inner join juegos j on cv.Juegos_idJuegos = j.idJuegos\n" +
-                "inner join estados e on cv.Estados_idEstados = e.idEstados\n" +
-                "inner join compras_ventas_has_cuentas cvc on cvc.Compras_ventas_idCompras_ventas = cv.idCompras_ventas\n" +
-                "where cv.compra_o_venta = 0 and cvc.Cuentas_idCuentas = 100";
+        String sql = "SELECT * FROM comprausuario cu\n" +
+                "inner join juego j on j.idJuego = cu.idJuego\n" +
+                "inner join estados e on cu.idEstados = e.idEstados\n" +
+                "where cu.idUsuario = 114;";
         String url = "jdbc:mysql://localhost:3306/mydb";
         try (Connection connection = DriverManager.getConnection(url, "root", "root");
              Statement stmt = connection.createStatement();
              ResultSet resultSet = stmt.executeQuery(sql)) {
 
             while (resultSet.next()) {
-                ComprasVentas comprasVentas = new ComprasVentas();
+                CompraUsuario compraUsuario = new CompraUsuario();
+                compraUsuario.setIdCompra(resultSet.getInt(1));
+                compraUsuario.setCantidad(resultSet.getInt(4));
+                compraUsuario.setFechaCompra(resultSet.getDate(5));
+                compraUsuario.setDireccion(resultSet.getString(6));
+                compraUsuario.setPrecioCompra(resultSet.getDouble(8));
 
-                comprasVentas.setIdComprasVentas(resultSet.getInt(1));
-                comprasVentas.setPrecioTotal(resultSet.getInt(2));
-                comprasVentas.setDescripcionEstado(resultSet.getString(4));
-                comprasVentas.setCantidad(resultSet.getInt(5));
-                comprasVentas.setCompraVenta(resultSet.getInt(8));
-                comprasVentas.setDescripcionJuego(resultSet.getString(9));
 
                 Juegos juegos = new Juegos();
+                juegos.setIdJuegos(resultSet.getInt(10));
+                juegos.setNombre(resultSet.getString(11));
+                juegos.setFoto(resultSet.getString(15));
 
-                juegos.setIdJuegos(resultSet.getInt("j.idJuegos"));
-                juegos.setNombre(resultSet.getString("nombre"));
-                juegos.setFoto(resultSet.getString("foto"));
-                comprasVentas.setJuegos(juegos);
+                compraUsuario.setJuegos(juegos);
 
                 Estados estados = new Estados();
-                estados.setIdEstados(resultSet.getInt("e.idEstados"));
-                estados.setNombreEstado(resultSet.getString("nombre_estado"));
-                comprasVentas.setEstados(estados);
+                estados.setIdEstados(resultSet.getInt(21));
+                estados.setEstados(resultSet.getString(22));
+                compraUsuario.setEstados(estados);
 
-                lista2.add(comprasVentas);
+                lista2.add(compraUsuario);
             }
 
         } catch (SQLException e) {
@@ -343,6 +337,27 @@ public class JuegosDaos {
         }
 
         return lista2;
+    }
+
+    public void actualizar(VentaUsuario ventaUsuario) {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String url = "jdbc:mysql://localhost:3306/mydb";
+        String sql = "update ventausuario set idEstados = 4 where idVenta = ?";
+        try (Connection connection = DriverManager.getConnection(url, "root", "root");
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, ventaUsuario.getIdVenta());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void borrar(String id)  {
@@ -354,7 +369,7 @@ public class JuegosDaos {
         }
 
         String url = "jdbc:mysql://localhost:3306/mydb";
-        String sql = "DELETE FROM compras_ventas WHERE idCompras_ventas = ?";
+        String sql = "UPDATE compraUsuario SET `idEstados` = '5' WHERE (`idCompra` = '1');\n";
         try (Connection connection = DriverManager.getConnection(url, "root", "root");
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
@@ -367,7 +382,7 @@ public class JuegosDaos {
         }
     }
 
-    public ArrayList<ComprasVentas> listarNotificaciones(){
+    /*public ArrayList<VentaUsuario> listarNotificaciones(){
         ArrayList<ComprasVentas> lista = new ArrayList<>();
 
         try {
@@ -409,11 +424,11 @@ public class JuegosDaos {
         }
 
         return lista;
-    }
+    }*/
 
     // Agregar Juegos Para vender
 
-    public void guardar(JuegosVendidosNuevos juegosVendidosNuevos) {
+   /* public void guardar(JuegosVendidosNuevos juegosVendidosNuevos) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -435,6 +450,6 @@ public class JuegosDaos {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
 }

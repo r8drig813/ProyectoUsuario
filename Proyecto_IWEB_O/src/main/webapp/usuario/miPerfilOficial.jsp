@@ -2,11 +2,12 @@
 <%@ page import="com.example.proyecto_iweb.models.beans.Juegos" %>
 <%@ page import="com.example.proyecto_iweb.models.daos.CuentasDaos" %>
 <%@ page import="com.example.proyecto_iweb.models.beans.Cuentas" %>
-<%@ page import="com.example.proyecto_iweb.models.beans.ComprasVentas" %>
+<%@ page import="com.example.proyecto_iweb.models.beans.CompraUsuario" %>
+<%@ page import="com.example.proyecto_iweb.models.beans.VentaUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="cuentas" scope="request" type="com.example.proyecto_iweb.models.beans.Cuentas"/>
-<%    ArrayList<ComprasVentas> listaNotificaciones = (ArrayList<ComprasVentas>) request.getAttribute("lista4");
-
+<%    ArrayList<CompraUsuario> listaNotificaciones = (ArrayList<CompraUsuario>) request.getAttribute("lista4");
+  //ArrayList<VentaUsuario> listaNotificaciones1  = (ArrayList<VentaUsuario>) request.getAttribute("lista4");
 %>
 <html lang="en">
 
@@ -272,7 +273,7 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Address</div>
-                  <div class="col-lg-9 col-md-8"><%=cuentas.getDirecion()%></div>
+                  <div class="col-lg-9 col-md-8"><%=cuentas.getDireccion()%></div>
                 </div>
 
                 <div class="row">
@@ -317,7 +318,7 @@
                   <div class="row mb-3">
                     <label for="direcion" class="col-md-4 col-lg-3 col-form-label">Address</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="direcion" type="text" class="form-control" id="direcion" value="<%=cuentas.getDirecion()%>">
+                      <input name="direcion" type="text" class="form-control" id="direcion" value="<%=cuentas.getDireccion()%>">
                     </div>
                   </div>
 
@@ -351,7 +352,7 @@
                   <div class="row mb-3">
                     <label for="contrasenia" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="contrasenia" type="password" class="form-control" id="contrasenia" value="<%=cuentas.getContrasenia()%>">
+                      <input name="contrasenia" type="password" class="form-control" id="contrasenia" value="<%//=cuentas.getContrasenia()%>">
                     </div>
                   </div>
 

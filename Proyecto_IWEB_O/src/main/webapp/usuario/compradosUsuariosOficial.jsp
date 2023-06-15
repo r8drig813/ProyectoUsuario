@@ -1,12 +1,12 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.proyecto_iweb.models.beans.Juegos" %>
 <%@ page import="com.example.proyecto_iweb.models.beans.Cuentas" %>
-<%@ page import="com.example.proyecto_iweb.models.beans.ComprasVentas" %>
+<%@ page import="com.example.proyecto_iweb.models.beans.CompraUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ArrayList<ComprasVentas> listaComprados = (ArrayList<ComprasVentas>) request.getAttribute("lista3");
-    ArrayList<Cuentas> listaPerfil = (ArrayList<Cuentas>) request.getAttribute("perfil");
-    ArrayList<ComprasVentas> listaNotificaciones = (ArrayList<ComprasVentas>) request.getAttribute("lista4");
+    ArrayList<CompraUsuario> listaComprados = (ArrayList<CompraUsuario>) request.getAttribute("lista3");
+   //ArrayList<Cuentas> listaPerfil = (ArrayList<Cuentas>) request.getAttribute("perfil");
+    //ArrayList<ComprasVentas> listaNotificaciones = (ArrayList<ComprasVentas>) request.getAttribute("lista4");
 
 %>
 <!DOCTYPE html>
@@ -79,12 +79,12 @@
             <li class="nav-item dropdown">
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-chat-left-text text-light"></i>
-                    <span class="badge bg-danger badge-number"><%=listaNotificaciones.size()%> </span>
+                    <span class="badge bg-danger badge-number"> </span>
                 </a><!-- End Messages Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                     <li class="dropdown-header">
-                        Tienes <%=listaNotificaciones.size()%> mensajes nuevos ! ! !
+                        Tienes  mensajes nuevos ! ! !
                         <!--
                         <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todo</span></a>
                         -->
@@ -106,12 +106,12 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="img/usuario/usuario1.webp" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2 text-light"><%for (Cuentas c : listaPerfil) {%>  <%=c.getNombre()%> </span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2 text-light"><%//for (Cuentas c : listaPerfil) {%>  <%//=c.getNombre()%> </span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6><%=c.getNombre()%> </h6>
+                        <h6><%//=c.getNombre()%> </h6>
                         <span>Usuario</span>
                     </li>
                     <li>
@@ -119,7 +119,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="<%=request.getContextPath()%>/CuentasServlet?a=perfil&id=<%=c.getIdCuentas()%> <% } %>">
+                        <a class="dropdown-item d-flex align-items-center" href="<%=request.getContextPath()%>/CuentasServlet?a=perfil&id=<%//=c.getIdCuentas()%> <%// } %>">
                             <i class="bi bi-person"></i>
                             <span>Mi Perfil</span>
                         </a>
@@ -253,21 +253,21 @@
                 <br><br>
                 <div class="container">
                     <div class="disponibleUsuario">
-                        <% for (ComprasVentas cv : listaComprados) { %>
+                        <% for (CompraUsuario cu : listaComprados) { %>
                         <div class="card mb-10" style="max-width: 1000px;">
                             <div class="row g-0 rounded-4 border border-primary border-2 p-2">
                                 <!--Imagen del juego-->
                                 <div class="col-md-4 d-flex justify-content-center align-items-center">
-                                    <img src="<%=cv.getJuegos().getFoto()%>" class="card-img-top" alt="...">
+                                    <img src="<%=cu.getJuegos().getFoto()%>" class="card-img-top" alt="...">
                                 </div>
                                 <!--Descripción del juego-->
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h6 class="card-title"> <%=cv.getJuegos().getNombre()%> </h6>
-                                        <p class="card-text"> Descripcion : <%=cv.getDescripcionEstado()%></p>
-                                        <p class="card-text"> Precio : $ <%=cv.getPrecioTotal()%> </p>
-                                        <p class="fw-bold"> Estado :  <%=cv.getDescripcionJuego()%> </p>
-                                        <a href="<%=request.getContextPath()%>/JuegosServlet?a=verjuego&id=<%=cv.getJuegos().getIdJuegos()%>" class="btn btn-dark">Ver juego</a>
+                                        <h6 class="card-title"> <%=cu.getJuegos().getNombre()%> </h6>
+                                        <p class="card-text"> Descripcion : <%=cu.getJuegos().getDescripcion()%></p>
+                                        <p class="card-text"> Precio : $ <%=cu.getPrecioCompra()%> </p>
+                                        <p class="fw-bold"> Estado :  <%=cu.getEstados().getEstados()%> </p>
+                                        <a href="<%=request.getContextPath()%>/JuegosServlet?a=verjuego&id=<%=cu.getJuegos().getIdJuegos()%>" class="btn btn-dark">Ver juego</a>
                                     </div>
                                 </div>
                             </div>
@@ -298,7 +298,7 @@
                         <div class="text-light text-center">
                             <h4>Recomendaciones</h4>
                         </div>
-                        <% Juegos juegos = new Juegos(); %>
+
                         <div class="d-flex justify-content-center align-items-center">
                             <img src="img/usuario/snipeer.jpg" width="50%" alt="">
                         </div>

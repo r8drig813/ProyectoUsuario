@@ -1,12 +1,12 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.proyecto_iweb.models.beans.Juegos" %>
 <%@ page import="com.example.proyecto_iweb.models.beans.Cuentas" %>
-<%@ page import="com.example.proyecto_iweb.models.beans.ComprasVentas" %>
+<%@ page import="com.example.proyecto_iweb.models.beans.VentaUsuario" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ArrayList<ComprasVentas> listaVendidos = (ArrayList<ComprasVentas>) request.getAttribute("lista2");
-    ArrayList<Cuentas> listaPerfil = (ArrayList<Cuentas>) request.getAttribute("perfil");
-    ArrayList<ComprasVentas> listaNotificaciones = (ArrayList<ComprasVentas>) request.getAttribute("lista4");
+    ArrayList<VentaUsuario> listaVendidos = (ArrayList<VentaUsuario>) request.getAttribute("lista2");
+    //ArrayList<Cuentas> listaPerfil = (ArrayList<Cuentas>) request.getAttribute("perfil");
+    //ArrayList<ComprasVentas> listaNotificaciones = (ArrayList<ComprasVentas>) request.getAttribute("lista4");
 
 %>
 <!DOCTYPE html>
@@ -79,12 +79,12 @@
             <li class="nav-item dropdown">
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-chat-left-text text-light"></i>
-                    <span class="badge bg-danger badge-number"><%=listaNotificaciones.size()%></span>
+                    <span class="badge bg-danger badge-number"><%//=listaNotificaciones.size()%></span>
                 </a><!-- End Messages Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                     <li class="dropdown-header">
-                        Tienes <%=listaNotificaciones.size()%> mensajes nuevos ! ! !
+                        Tienes <%//=listaNotificaciones.size()%> mensajes nuevos ! ! !
                         <!--
                         <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todo</span></a>
                         -->
@@ -106,12 +106,12 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="img/usuario/usuario1.webp" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2 text-light"><%for (Cuentas c : listaPerfil) {%>  <%=c.getNombre()%> </span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2 text-light"><%//for (Cuentas c : listaPerfil) {%>  <%//=c.getNombre()%> </span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6><%=c.getNombre()%> </h6>
+                        <h6><%//=c.getNombre()%> </h6>
                         <span>Usuario</span>
                     </li>
                     <li>
@@ -119,7 +119,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="<%=request.getContextPath()%>/CuentasServlet?a=perfil&id=<%=c.getIdCuentas()%> <% } %>">
+                        <a class="dropdown-item d-flex align-items-center" href="<%=request.getContextPath()%>/CuentasServlet?a=perfil&id=<%//=c.getIdCuentas()%> <%//} %>">
                             <i class="bi bi-person"></i>
                             <span>Mi Perfil</span>
                         </a>
@@ -220,54 +220,50 @@
                     <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Cantidad</th>
+                        <th>Precio de Venta</th>
                         <th>Estado</th>
                         <th>Opciones</th>
                         <th>Ver Formulario</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (ComprasVentas cv : listaVendidos) { %>
+                    <% for (VentaUsuario vu : listaVendidos) { %>
                     <tr>
-                        <td><%=cv.getJuegos().getNombre()%>
+                        <td><%=vu.getJuegos().getNombre()%>
                         </td>
-                        <td><%=cv.getCantidad()%>
+                        <td><%=vu.getPrecioVenta()%>
                         </td>
-                        <td><%=cv.getEstados().getNombreEstado()%>
+                        <td><%=vu.getEstados().getEstados()%>
                         </td>
-                        <td> <% if (cv.getEstados().getNombreEstado().equals("pendiente")){ %>
+                        <td> <% if (vu.getEstados().getEstados().equals("pendiente")){ %>
                             <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=cv.getIdComprasVentas()%>">Eliminar Propuesta</a>
+                               href="<%=request.getContextPath()%>/JuegosServlet?p=actualizar&id=<%=vu.getIdVenta()%>">Retirar Propuesta</a>
                             <%}%>
 
-                            <% if (cv.getEstados().getNombreEstado().equals("aceptado")){ %>
+                            <% if (vu.getEstados().getEstados().equals("aceptado")){ %>
                             <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=cv.getIdComprasVentas()%>">Eliminar Propuesta</a>
+                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
                             <%}%>
-                            <% if (cv.getEstados().getNombreEstado().equals("no aceptado")){ %>
-                            <a href="<%=request.getContextPath()%>/JuegosServlet?a=verjuego&id=<%=cv.getIdComprasVentas()%>" class="btn btn-dark">Modificar Precio</a>
-                            <a href="<%=request.getContextPath()%>/JuegosServlet?a=listarNotificaciones" class="btn btn-dark">Ver Precio Sugerido</a>
+                            <% if (vu.getEstados().getEstados().equals("no aceptado")){ %>
+                            <a href="<%=request.getContextPath()%>/JuegosServlet?a=verjuego&id=<%=vu.getIdVenta()%>" class="btn btn-dark">Ver Precio Sugerido</a>
+                            <a href="<%=request.getContextPath()%>/JuegosServlet?a=listarNotificaciones" class="btn btn-dark">Modificar Precio</a>
                             <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=cv.getIdComprasVentas()%>">Eliminar Propuesta</a>
-                            <%}%>
-
-                            <% if (cv.getEstados().getNombreEstado().equals("rechazado")){ %>
-                            <a  href="<%=request.getContextPath()%>/JuegosServlet?a=listarNotificaciones" class="btn btn-dark" >Ver Motivo</a>
-                            <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=cv.getIdComprasVentas()%>">Eliminar Propuesta</a>
+                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
                             <%}%>
 
-                            <% if (cv.getEstados().getNombreEstado().equals("retirado")){ %>
+                            <% if (vu.getEstados().getEstados().equals("rechazado")){ %>
+                            <a href="<%=request.getContextPath()%>/JuegosServlet?a=listarNotificaciones" class="btn btn-dark" >Ver Motivo</a>
                             <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
-                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=cv.getIdComprasVentas()%>">Eliminar Propuesta</a>
+                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
                             <%}%>
 
-                            <% if (cv.getEstados().getNombreEstado().equals("vendido")){ %>
-                            <a href="<%=request.getContextPath()%>/JuegosServlet?a=verjuego&id=<%=cv.getIdComprasVentas()%>" class="btn btn-dark">Fecha de venta</a>
+                            <% if (vu.getEstados().getEstados().equals("retirado")){ %>
+                            <a onclick="return confirm('Estas seguro de Eliminar :( ?')" class="btn btn-primary"
+                               href="<%=request.getContextPath()%>/JuegosServlet?a=borrar&id=<%=vu.getIdVenta()%>">Eliminar Propuesta</a>
                             <%}%>
 
                         </td>
-                        <td><a href="<%=request.getContextPath()%>/JuegosServlet?a=verjuego&id=<%=cv.getIdComprasVentas()%>" class="btn btn-dark">Ver Formulario</a>
+                        <td><a href="<%=request.getContextPath()%>/JuegosServlet?a=verjuego&id=<%=vu.getIdVenta()%>" class="btn btn-dark">Ver Formulario</a>
                         </td>
                     </tr>
                     <% } %>

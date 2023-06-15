@@ -26,24 +26,24 @@ public class CuentasServlet extends HttpServlet {
             case  "perfil" :
                 String id = request.getParameter("id");
                 request.setAttribute("cuentas",cuentasDaos.listar(id));
-                request.setAttribute("lista4",juegosDaos.listarNotificaciones());
+                //request.setAttribute("lista4",juegosDaos.listarNotificaciones());
                 request.getRequestDispatcher("usuario/miPerfilOficial.jsp").forward(request, response);
                 break;
             case "listar":
-                request.setAttribute("listar1", juegosDaos.listarJuegos());
-                request.setAttribute("perfil", cuentasDaos.perfil());
+                //request.setAttribute("listar1", juegosDaos.listarJuegos());
+                //request.setAttribute("perfil", cuentasDaos.perfil());
 
                 request.getRequestDispatcher("usuario/indexUsuarioOficial.jsp").forward(request, response);
                 break;
             case "vendidos":
                 request.setAttribute("listar2", juegosDaos.listarVendidos());
-                request.setAttribute("perfil", cuentasDaos.perfil());
+                //request.setAttribute("perfil", cuentasDaos.perfil());
 
                 request.getRequestDispatcher("usuario/vendidosUsuariosOficial.jsp").forward(request, response);
                 break;
             case "comprados":
                 request.setAttribute("listar3", juegosDaos.listarComprados());
-                request.setAttribute("perfil", cuentasDaos.perfil());
+                //request.setAttribute("perfil", cuentasDaos.perfil());
 
                 request.getRequestDispatcher("usuario/compradosUsuariosOficial.jsp").forward(request, response);
                 break;
@@ -68,14 +68,13 @@ public class CuentasServlet extends HttpServlet {
         }
     }
 
-    public Cuentas parseCuentas(HttpServletRequest request) {
+    public Cuentas parseCuentas(HttpServletRequest request)  {
 
         Cuentas cuentas = new Cuentas();
         String idCuentas = request.getParameter("idCuentas") != null ? request.getParameter("idCuentas") : "";
         String descripcion = request.getParameter("descripcion");
-        String direcion = request.getParameter("direcion");
+        String direcion = request.getParameter("direccion");
         String correo = request.getParameter("correo");
-        String contrasenia = request.getParameter("contrasenia");
 
         try {
 
@@ -83,9 +82,8 @@ public class CuentasServlet extends HttpServlet {
 
             cuentas.setIdCuentas(id);
             cuentas.setDescripcion(descripcion);
-            cuentas.setDirecion(direcion);
+            cuentas.setDireccion(direcion);
             cuentas.setCorreo(correo);
-            cuentas.setContrasenia(contrasenia);
 
             return cuentas;
 
