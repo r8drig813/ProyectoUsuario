@@ -81,7 +81,7 @@ public class Juegos {
         this.habilitado = habilitado;
     }
 
-    public boolean isExistente() {
+    public boolean getExistente() {
         return existente;
     }
 
