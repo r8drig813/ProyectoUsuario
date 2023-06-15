@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `mydb` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `mydb`;
 -- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: localhost    Database: mydb
@@ -16,126 +18,103 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `compras_ventas`
+-- Table structure for table `comprausuario`
 --
 
-DROP TABLE IF EXISTS `compras_ventas`;
+DROP TABLE IF EXISTS `comprausuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `compras_ventas` (
-  `idCompras_ventas` int NOT NULL AUTO_INCREMENT,
-  `precio_total` decimal(10,0) NOT NULL,
-  `fecha_cv` date NOT NULL,
-  `descripcionEstado` varchar(45) NOT NULL,
+CREATE TABLE `comprausuario` (
+  `idCompra` int NOT NULL AUTO_INCREMENT,
+  `idUsuario` int NOT NULL,
+  `idJuego` int NOT NULL,
   `cantidad` int NOT NULL,
-  `Estados_idEstados` int NOT NULL,
-  `Juegos_idJuegos` int NOT NULL,
-  `compra_o_venta` tinyint NOT NULL,
-  `descripcionJuego` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idCompras_ventas`),
-  KEY `fk_Compras_ventas_Estados1_idx` (`Estados_idEstados`),
-  KEY `fk_Compras_ventas_Juegos1_idx` (`Juegos_idJuegos`),
-  CONSTRAINT `fk_Compras_ventas_Estados1` FOREIGN KEY (`Estados_idEstados`) REFERENCES `estados` (`idEstados`),
-  CONSTRAINT `fk_Compras_ventas_Juegos1` FOREIGN KEY (`Juegos_idJuegos`) REFERENCES `juegos` (`idJuegos`) ON DELETE CASCADE
+  `fechaCompra` date NOT NULL,
+  `direccion` varchar(45) NOT NULL,
+  `idAdmin` int NOT NULL,
+  `precioCompra` varchar(45) DEFAULT NULL,
+  `idEstados` int NOT NULL,
+  PRIMARY KEY (`idCompra`),
+  KEY `fk_Compra_Usuario1_idx` (`idUsuario`),
+  KEY `fk_Compra_Juego1_idx` (`idJuego`),
+  KEY `fk_Compra_Usuario2_idx` (`idAdmin`),
+  KEY `fk_comprausuario_estados1_idx` (`idEstados`),
+  CONSTRAINT `fk_Compra_Juego1` FOREIGN KEY (`idJuego`) REFERENCES `juego` (`idJuego`),
+  CONSTRAINT `fk_Compra_Usuario1` FOREIGN KEY (`idUsuario`) REFERENCES `cuenta` (`idCuenta`),
+  CONSTRAINT `fk_Compra_Usuario2` FOREIGN KEY (`idAdmin`) REFERENCES `cuenta` (`idCuenta`),
+  CONSTRAINT `fk_comprausuario_estados1` FOREIGN KEY (`idEstados`) REFERENCES `estados` (`idestados`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `compras_ventas`
+-- Dumping data for table `comprausuario`
 --
 
-LOCK TABLES `compras_ventas` WRITE;
-/*!40000 ALTER TABLE `compras_ventas` DISABLE KEYS */;
-INSERT INTO `compras_ventas` VALUES (1,100,'2023-06-04','Juego de Mundo Abierto',1,1,112,1,'Entregado'),(2,50,'2023-06-04','Juego de Cubos',1,1,106,1,NULL),(3,107,'2023-06-04','Juego de hacer lo que quieras',1,1,107,1,'Entregado'),(4,107,'2023-06-04','Juego de hacer lo que quieras',1,2,107,1,NULL),(5,50,'2023-06-04','Juego facil',2,3,109,1,'Demasiado Caro Cambiar precio por $30'),(6,40,'2023-06-07','Juego demasiado ezz',1,4,115,1,'Ya nadie lo juega'),(7,30,'2023-06-04','Juego muy complicado',2,2,119,1,NULL),(8,30,'2023-06-04','Juego ez',1,1,119,0,'Recojer en tienda'),(9,100,'2023-06-04','holaaaaa',1,1,101,1,'-'),(10,101,'2023-06-04','holaaaaaa',1,1,102,1,'-');
-/*!40000 ALTER TABLE `compras_ventas` ENABLE KEYS */;
+LOCK TABLES `comprausuario` WRITE;
+/*!40000 ALTER TABLE `comprausuario` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comprausuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `compras_ventas_has_cuentas`
+-- Table structure for table `credencial`
 --
 
-DROP TABLE IF EXISTS `compras_ventas_has_cuentas`;
+DROP TABLE IF EXISTS `credencial`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `compras_ventas_has_cuentas` (
-  `Compras_ventas_idCompras_ventas` int NOT NULL,
-  `Cuentas_idCuentas` int NOT NULL,
-  KEY `fk_Compras_ventas_has_Cuentas_Cuentas1_idx` (`Cuentas_idCuentas`),
-  KEY `fk_Compras_ventas_has_Cuentas_Compras_ventas1_idx` (`Compras_ventas_idCompras_ventas`),
-  CONSTRAINT `fk_Compras_ventas_has_Cuentas_Compras_ventas1` FOREIGN KEY (`Compras_ventas_idCompras_ventas`) REFERENCES `compras_ventas` (`idCompras_ventas`) ON DELETE CASCADE,
-  CONSTRAINT `fk_Compras_ventas_has_Cuentas_Cuentas1` FOREIGN KEY (`Cuentas_idCuentas`) REFERENCES `cuentas` (`idCuentas`)
+CREATE TABLE `credencial` (
+  `correo` varchar(45) NOT NULL,
+  `contraseniaHashed` varchar(64) NOT NULL,
+  `idCuenta` int NOT NULL,
+  KEY `fk_credencial_cuenta1_idx` (`idCuenta`),
+  CONSTRAINT `fk_credencial_cuenta1` FOREIGN KEY (`idCuenta`) REFERENCES `cuenta` (`idCuenta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `compras_ventas_has_cuentas`
+-- Dumping data for table `credencial`
 --
 
-LOCK TABLES `compras_ventas_has_cuentas` WRITE;
-/*!40000 ALTER TABLE `compras_ventas_has_cuentas` DISABLE KEYS */;
-INSERT INTO `compras_ventas_has_cuentas` VALUES (1,100),(2,101),(3,100),(4,100),(5,100),(7,100),(8,100),(6,100);
-/*!40000 ALTER TABLE `compras_ventas_has_cuentas` ENABLE KEYS */;
+LOCK TABLES `credencial` WRITE;
+/*!40000 ALTER TABLE `credencial` DISABLE KEYS */;
+INSERT INTO `credencial` VALUES ('dyla@hotmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',1),('jondoead@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',2),('robertbrown@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',10),('emiliedavd@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',11),('juanperez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',112),('mariagonz@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',113),('carloslopez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',114),('larodriguez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',115),('diegohernandez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',116),('anamartinez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',117),('pedrogarcia@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',118),('luisasanchez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',119),('migueltorres@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',120),('sofialuna@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',121),('alejandrorojas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',122),('valentinacordova@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',123),('javiervargas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',124),('paulaortega@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',125),('andresguerrero@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',126),('fernandadiaz@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',127),('gabrielvargas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',128),('johndoe@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',129),('janesmith@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',130),('alicejohnson@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',131),('emilydavis@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',132),('sophiawilson@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',133),('lauragonzalez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',134),('carlostorres@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',135),('anaramirez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',136),('luishernandez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',137),('elenacastro@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',138),('mariolopez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',139),('sofiagomez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',140),('andresmartinez@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',141),('carolinasilva@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',142);
+/*!40000 ALTER TABLE `credencial` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `consolas`
+-- Table structure for table `cuenta`
 --
 
-DROP TABLE IF EXISTS `consolas`;
+DROP TABLE IF EXISTS `cuenta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `consolas` (
-  `idEtiquetas` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
-  PRIMARY KEY (`idEtiquetas`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `consolas`
---
-
-LOCK TABLES `consolas` WRITE;
-/*!40000 ALTER TABLE `consolas` DISABLE KEYS */;
-INSERT INTO `consolas` VALUES (1,'PC'),(2,'PlayStation 4'),(3,'PlayStation 5'),(4,'Xbox X'),(5,'Nintendo Switch');
-/*!40000 ALTER TABLE `consolas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `cuentas`
---
-
-DROP TABLE IF EXISTS `cuentas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cuentas` (
-  `idCuentas` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `cuenta` (
+  `idCuenta` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
   `nickname` varchar(45) NOT NULL,
-  `direcion` varchar(50) NOT NULL,
+  `direccion` varchar(50) NOT NULL,
   `correo` varchar(100) NOT NULL,
-  `contrasenia` varchar(100) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   `desabilitado` tinyint NOT NULL,
-  `Roles_idRoles` int NOT NULL,
-  PRIMARY KEY (`idCuentas`),
+  `idRol` int NOT NULL,
+  PRIMARY KEY (`idCuenta`),
   UNIQUE KEY `nickname_UNIQUE` (`nickname`),
   UNIQUE KEY `correo_UNIQUE` (`correo`),
-  KEY `fk_Cuentas_Roles_idx` (`Roles_idRoles`),
-  CONSTRAINT `fk_Cuentas_Roles` FOREIGN KEY (`Roles_idRoles`) REFERENCES `roles` (`idRoles`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb3;
+  KEY `fk_Cuentas_Roles_idx` (`idRol`),
+  CONSTRAINT `fk_Cuentas_Roles` FOREIGN KEY (`idRol`) REFERENCES `rol` (`idRol`)
+) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cuentas`
+-- Dumping data for table `cuenta`
 --
 
-LOCK TABLES `cuentas` WRITE;
-/*!40000 ALTER TABLE `cuentas` DISABLE KEYS */;
-INSERT INTO `cuentas` VALUES (1,'juan','loyola','chaufa','calle Ascent 123','angelo00051@outlook.com','123123',NULL,'jhksdfgds sdfhdsfh hjsdfh',0,1),(2,'renato','delgado','rena','calle icebox','prueba@gmail.com','123123',NULL,'jhksdfgds sdfhdsfh hjsdfh',0,1),(10,'romel','garay','romeo','calle bind','prueba2@gmail.com','123123',NULL,'jhksdfgds sdfh hjsdfh',0,2),(11,'oscar','agreda','osc','calle breeze','prueba3@gmail.com','123123',NULL,'j sdfhdsfh hjsdfh',0,2),(100,'dylan','bustamante','dyl','Jr Zepita','a20180159@pucp.edu.pe','123123',NULL,'Alumno que vive en chosica',0,3),(101,'rodrigo','tinoco','rodri','Huancayork','a2019019@pucp.edu.pe','123123',NULL,'Espero NO jalar IWEB ',0,3),(102,'luciana','iza','eggpotato','calle 7','patata@gmail.com','123123',NULL,'jhksdf hjsdfh',0,3),(103,'María','Gómez','mariag','Avenida 456','mariagomez@example.com','pass456',NULL,'Descripción 2',0,3),(104,'Pedro','López','pedrol','Calle Principal','pedrolopez@example.com','password789',NULL,'Descripción 3',0,3),(105,'Laura','Martínez','lauram','Avenida Central','lauramartinez@example.com','secretword',NULL,'Descripción 4',0,3),(106,'Carlos','Rodríguez','carlosr','Calle Secundaria','carlosrodriguez@example.com','pass1234',NULL,'Descripción 5',0,3),(107,'Ana','Sánchez','anas','Avenida 789','anasanchez@example.com','mypassword',NULL,'Descripción 6',0,3),(108,'Luis','Hernández','luish','Calle Principal','luishernandez@example.com','qwerty123',NULL,'Descripción 7',0,3),(109,'Sofía','García','sofiag','Avenida 555','sofiagarcia@example.com','test123',NULL,'Descripción 8',0,3),(110,'Daniel','Torres','danielt','Calle 999','danieltorres@example.com','password123',NULL,'Descripción 9',0,3),(111,'Marta','Ortega','martaort','Avenida Principal','martaortega@example.com','mypass123',NULL,'Descripción 10',0,3);
-/*!40000 ALTER TABLE `cuentas` ENABLE KEYS */;
+LOCK TABLES `cuenta` WRITE;
+/*!40000 ALTER TABLE `cuenta` DISABLE KEYS */;
+INSERT INTO `cuenta` VALUES (1,'Dylan','Bustamante','tecreo','Chosica','dyla@hotmail.com',NULL,'soy una persona xd',0,1),(2,'Joeyn','Doead','johndoead','Calle Los Pinos 33333','jondoead@gmail.com',NULL,'Tengo miedo de web1',0,1),(10,'Robert','Brown','robertbrown','Avenida Los Laureles 321','robertbrown@gmail.com',NULL,'todos quieren ser admins',0,2),(11,'Emilie','Davd','emiliedavd','Calle Maple 654','emiliedavd@gmail.com',NULL,'soy admin',0,2),(112,'Juan','Pérez','juanperez','Av. Javier Prado 123','juanperez@gmail.com',NULL,'Soy un amante de la música',0,3),(113,'María','González','mariagonz','Jr. Huallaga 456','mariagonz@gmail.com',NULL,'Me encanta viajar',0,3),(114,'Carlos','López','carlosl','Av. Arequipa 789','carloslopez@gmail.com',NULL,'Amante de los deportes',0,3),(115,'Laura','Rodríguez','larodri','Av. Larco 321','larodriguez@gmail.com',NULL,'Apasionada por la lectura',0,3),(116,'Diego','Hernández','diegoh','Jr. Iquitos 654','diegohernandez@gmail.com',NULL,'Fanático de la tecnología',0,3),(117,'Ana','Martínez','anamart','Chiclayo','anamartinez@gmail.com',NULL,'Adoro la cocina',0,3),(118,'Pedro','García','pedrog','Piura','pedrogarcia@gmail.com',NULL,'Me encanta el cine',0,3),(119,'Luisa','Sánchez','luisas','Huaraz','luisasanchez@gmail.com',NULL,'Amante de los animales',0,3),(120,'Miguel','Torres','miguelt','Tacna','migueltorres@gmail.com',NULL,'Apasionado por la fotografía',0,3),(121,'Sofía','Luna','sofial','Ayacucho','sofialuna@gmail.com',NULL,'Me gusta la pintura',0,3),(122,'Alejandro','Rojas','alejandror','Pucallpa','alejandrorojas@gmail.com',NULL,'Adicto a los videojuegos',0,3),(123,'Valentina','Cordova','valentinac','Ica','valentinacordova@gmail.com',NULL,'Me gusta la jardinería',0,3),(124,'Javier','Vargas','javierv','Huancayo','javiervargas@gmail.com',NULL,'Fanático del fútbol',0,3),(125,'Paula','Ortega','paulao','Chimbote','paulaortega@gmail.com',NULL,'Amante de la moda',0,3),(126,'Andrés','Guerrero','andresg','Tarapoto','andresguerrero@gmail.com',NULL,'Apasionado por la historia',0,3),(127,'Fernanda','Díaz','fernandad','Trujillo','fernandadiaz@gmail.com',NULL,'Me gusta el yoga',0,3),(128,'Gabriel','Vargas','gabrielv','Lima','gabrielvargas@gmail.com',NULL,'Adicto a las series',0,3),(129,'John','Doe','johndoe','Calle Los Pinos 123','johndoe@gmail.com',NULL,'Tengo miedo del entregable',0,3),(130,'Jane','Smith','janesmith','Avenida Los Robles 456','janesmith@gmail.com',NULL,'Iweb izipizi',0,3),(131,'Alice','Johnson','alicejohnson','Calle Las Flores 789','alicejohnson@gmail.com',NULL,'No tengo dinero',0,3),(132,'Emily','Davis','emilydavis','Calle Maple 654','emilydavis@gmail.com',NULL,'Soy un niño',0,3),(133,'Sophia','Wilson','sophiawilson','Calle Cedar 147','sophiawilson@gmail.com',NULL,'Amo jugar videojuegos',0,2),(134,'Laura','González','lauragonzalez','Calle Secundaria 456','lauragonzalez@gmail.com',NULL,'Usuario activo',0,3),(135,'Carlos','Torres','carlostorres','Avenida Norte 789','carlostorres@gmail.com',NULL,'Usuario activo',0,3),(136,'Ana','Ramírez','anaramirez','Calle Principal 789','anaramirez@gmail.com',NULL,'Usuario activo',0,3),(137,'Luis','Hernández','luishernandez','Avenida Central 123','luishernandez@gmail.com',NULL,'Usuario activo',0,3),(138,'Elena','Castro','elenacastro','Calle Secundaria 789','elenacastro@gmail.com',NULL,'Usuario activo',0,3),(139,'Mario','López','mariolopez','Avenida Norte 456','mariolopez@gmail.com',NULL,'Usuario activo',0,3),(140,'Sofía','Gómez','sofiagomez','Calle Principal 456','sofiagomez@gmail.com',NULL,'Usuario activo',0,3),(141,'Andrés','Martínez','andresmartinez','Avenida Central 789','andresmartinez@gmail.com',NULL,'Usuario activo',0,3),(142,'Carolina','Silva','carolinasilva','Calle Secundaria 123','carolinasilva@gmail.com',NULL,'Usuario activo',0,3);
+/*!40000 ALTER TABLE `cuenta` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -146,10 +125,10 @@ DROP TABLE IF EXISTS `estados`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `estados` (
-  `idEstados` int NOT NULL AUTO_INCREMENT,
-  `nombre_estado` varchar(45) NOT NULL,
-  PRIMARY KEY (`idEstados`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+  `idestados` int NOT NULL,
+  `nombreEstados` varchar(45) NOT NULL,
+  PRIMARY KEY (`idestados`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,145 +137,104 @@ CREATE TABLE `estados` (
 
 LOCK TABLES `estados` WRITE;
 /*!40000 ALTER TABLE `estados` DISABLE KEYS */;
-INSERT INTO `estados` VALUES (1,'pendiente'),(2,'aceptado'),(3,'no aceptado'),(4,'rechazado'),(5,'retirado');
+INSERT INTO `estados` VALUES (1,'pendiente'),(2,'aceptado'),(3,'no aceptado'),(4,'rechazado '),(6,'pendiente'),(7,'entregado');
 /*!40000 ALTER TABLE `estados` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `generos`
+-- Table structure for table `juego`
 --
 
-DROP TABLE IF EXISTS `generos`;
+DROP TABLE IF EXISTS `juego`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `generos` (
-  `idEtiquetas` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
-  PRIMARY KEY (`idEtiquetas`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `generos`
---
-
-LOCK TABLES `generos` WRITE;
-/*!40000 ALTER TABLE `generos` DISABLE KEYS */;
-INSERT INTO `generos` VALUES (1,'1 jugador'),(2,'Multijugador'),(3,'Acción'),(4,'Aventura'),(5,'Estrategia'),(6,'Shooter'),(7,'Deportes'),(8,'Carreras'),(9,'Puzzle'),(10,'Terror'),(11,'Mundo abierto'),(12,'battle royal');
-/*!40000 ALTER TABLE `generos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `juegos`
---
-
-DROP TABLE IF EXISTS `juegos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `juegos` (
-  `idJuegos` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `juego` (
+  `idJuego` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
   `precio` decimal(10,0) NOT NULL,
-  `descuento` decimal(10,0) NOT NULL,
-  `stock` int NOT NULL,
+  `descuento` decimal(10,0) DEFAULT NULL,
   `foto` varchar(100) NOT NULL,
-  `retirar_juego` tinyint DEFAULT NULL,
-  `juego_sugerido` tinyint DEFAULT NULL,
-  `Cuentas_idCuentas` int DEFAULT NULL,
-  `existentes` tinyint DEFAULT NULL,
-  PRIMARY KEY (`idJuegos`),
+  `existente` tinyint DEFAULT NULL,
+  `habilitado` tinyint DEFAULT NULL,
+  `consola` varchar(45) NOT NULL,
+  `genero` varchar(45) NOT NULL,
+  `stock` int NOT NULL,
+  PRIMARY KEY (`idJuego`),
   UNIQUE KEY `foto_UNIQUE` (`foto`),
-  KEY `fk_Juegos_Cuentas1_idx` (`Cuentas_idCuentas`,`idJuegos`)
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb3;
+  KEY `fk_Juegos_Cuentas1_idx` (`idJuego`)
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `juegos`
+-- Dumping data for table `juego`
 --
 
-LOCK TABLES `juegos` WRITE;
-/*!40000 ALTER TABLE `juegos` DISABLE KEYS */;
-INSERT INTO `juegos` VALUES (100,'Valorant','Juego de disparos casi tan bueno como CSGO',0,0,100,'img/juegos/1valorant.png',0,0,NULL,0),(101,'dota2','juegazo',0,0,100,'img/juegos/2dota2.jpg',0,0,NULL,0),(102,'Toontown','juego de farmeo',0,0,100,'img/juegos/3toon.jpg',0,0,NULL,1),(103,'Call of Duty','shooter',150,0,5,'img/juegos/4callDuty.jpg',0,0,NULL,1),(104,'Beyond two souls ','Beyond: Two Souls es un videojuego de drama interactivo, desarrollado por Quantic Dream y distribuido por Sony',120,20,100,'img/juegos/5beyond.jpg',0,0,NULL,0),(105,'The Legend of Zelda: Breath of the Wild','Videojuego de aventuras',180,10,50,'img/juegos/6zelda.jpg',0,0,NULL,0),(106,'Minecraft','Juego de construcción y aventura',50,0,200,'img/juegos/7mine.jpg',0,0,NULL,1),(107,'Grand Theft Auto V','Videojuego de acción y mundo abierto',200,25,20,'img/juegos/8gta5.jpg',0,0,NULL,0),(108,'FIFA 22','Videojuego de fútbol',60,0,30,'img/juegos/9fifa.jpeg',0,0,NULL,0),(109,'Assassins Creed Valhalla','Videojuego de acción y aventura',140,15,15,'img/juegos/10assa.jpg',0,0,100,0),(110,'Animal Crossing: New Horizons','Videojuego de simulación de vida',60,0,10,'img/juegos/11animal.jpg',0,0,NULL,1),(111,'Super Mario Odyssey','Videojuego de plataformas',50,0,50,'img/juegos/12mario.jpg',0,0,NULL,1),(112,'The Witcher 3: Wild Hunt','Videojuego de rol y acción',40,10,25,'img/juegos/13witcher.jpg',0,0,100,1),(113,'Fortnite','Videojuego de Battle Royale',100,0,100,'img/juegos/14fortnite.jpg',0,0,NULL,1),(114,'Red Dead Redemption 2','Videojuego de acción y mundo abierto',60,0,40,'img/juegos/15reddead.jpg',0,0,NULL,1),(115,'Pokemon','Videojuego de Pokemon',60,0,1,'img/juegos/16pokemon.png',0,0,NULL,1),(116,'The Last of Us Part II','Videojuego de acción y aventura',70,0,20,'img/juegos/17lastofus.jpg',0,0,NULL,1),(117,'Overwatch','Videojuego de disparos en equipo',40,0,50,'img/juegos/18over.jpg',0,0,NULL,0),(118,'Resident Evil Village','Videojuego de terror y supervivencia',50,0,15,'img/juegos/19resident.jpg',0,0,NULL,1),(119,'Splatoon 2','Videojuego de disparos y acción',40,0,40,'img/juegos/20spla.jpg',0,0,100,0),(120,'Final Fantasy VII Remake','Videojuego de rol y aventuras',60,0,25,'img/juegos/21final.jpg',0,0,NULL,1);
-/*!40000 ALTER TABLE `juegos` ENABLE KEYS */;
+LOCK TABLES `juego` WRITE;
+/*!40000 ALTER TABLE `juego` DISABLE KEYS */;
+INSERT INTO `juego` VALUES (120,'Valorant','Juego de disparos casi tan bueno como CSGO',0,0,'img/juegos/1valorant.png',1,1,'Nintendo Switch','Aventura',100),(122,'dota2','juegazo',0,0,'img/juegos/2dota2.jpg',1,1,'PlayStation 4','Acción',50),(123,'Toontown','juego de farmeo',0,0,'img/juegos/3toon.jpg',1,1,'PlayStation 5','Sandbox',100),(124,'Call of Duty','shooter',150,0,'img/juegos/4callDuty.jpg',1,1,'PlayStation 4','Acción',5),(125,'Beyond two souls ','Beyond: Two Souls es un videojuego de drama interactivo, desarrollado por Quantic Dream y distribuido por Sony',120,20,'img/juegos/5beyond.jpg',1,1,'PlayStation 5','Mundo abierto',100),(126,'The Legend of Zelda: Breath of the Wild','Videojuego de aventuras',180,10,'img/juegos/6zelda.jpg',1,1,'PlayStation 4','Terror',50),(127,'Minecraft','Juego de construcción y aventura',50,0,'img/juegos/7mine.jpg',1,1,'Nintendo Switch','Mundo abierto',200),(128,'Grand Theft Auto V','Videojuego de acción y mundo abierto',200,25,'img/juegos/8gta5.jpg',1,1,'PlayStation 4','Acción',20),(129,'FIFA 22','Videojuego de fútbol',60,0,'img/juegos/9fifa.jpeg',1,1,'Nintendo Switch','Estrategia',30),(130,'Assassins Creed Valhalla','Videojuego de acción y aventura',140,15,'img/juegos/10assa.jpg',1,1,'PlayStation 5','Terror',15),(131,'Animal Crossing: New Horizons','Videojuego de simulación de vida',60,0,'img/juegos/11animal.jpg',1,1,'Nintendo Switch','Mundo abierto',10),(132,'Super Mario Odyssey','Videojuego de plataformas',50,0,'img/juegos/12mario.jpg',1,1,'PlayStation 5','Acción',50),(133,'The Witcher 3: Wild Hunt','Videojuego de rol y acción',40,10,'img/juegos/13witcher.jpg',1,1,'PC','Shooter',25),(134,'Fortnite','Videojuego de Battle Royale',100,0,'img/juegos/14fortnite.jpg',1,1,'PlayStation 4','Shooter',100),(135,'Red Dead Redemption 2','Videojuego de acción y mundo abierto',60,0,'img/juegos/15reddead.jpg',1,1,'PC','battle royal',40),(136,'Pokemon','Videojuego de Pokemon',60,0,'img/juegos/16pokemon.png',1,1,'PlayStation 4','Estrategia',1),(137,'The Last of Us Part II','Videojuego de acción y aventura',70,0,'img/juegos/17lastofus.jpg',1,1,'PlayStation 5','Acción',20),(138,'Overwatch','Videojuego de disparos en equipo',40,0,'img/juegos/18over.jpg',1,1,'PC','battle royal',50),(139,'Resident Evil Village','Videojuego de terror y supervivencia',50,0,'img/juegos/19resident.jpg',1,1,'PlayStation 4','battle royal',15),(140,'Splatoon 2','Videojuego de disparos y acción',40,0,'img/juegos/20spla.jpg',1,1,'PlayStation 5','Estrategia',40),(141,'Final Fantasy VII Remake','Videojuego de rol y aventuras',60,0,'img/juegos/21final.jpg',1,1,'PlayStation 4','Acción',25);
+/*!40000 ALTER TABLE `juego` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `juegos_has_consolas`
+-- Table structure for table `rol`
 --
 
-DROP TABLE IF EXISTS `juegos_has_consolas`;
+DROP TABLE IF EXISTS `rol`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `juegos_has_consolas` (
-  `Juegos_idJuegos` int NOT NULL,
-  `Consolas_idEtiquetas` int NOT NULL,
-  PRIMARY KEY (`Juegos_idJuegos`,`Consolas_idEtiquetas`),
-  KEY `fk_Juegos_has_Consolas_Consolas1_idx` (`Consolas_idEtiquetas`),
-  KEY `fk_Juegos_has_Consolas_Juegos1_idx` (`Juegos_idJuegos`),
-  CONSTRAINT `fk_Juegos_has_Consolas_Consolas1` FOREIGN KEY (`Consolas_idEtiquetas`) REFERENCES `consolas` (`idEtiquetas`),
-  CONSTRAINT `fk_Juegos_has_Consolas_Juegos1` FOREIGN KEY (`Juegos_idJuegos`) REFERENCES `juegos` (`idJuegos`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `juegos_has_consolas`
---
-
-LOCK TABLES `juegos_has_consolas` WRITE;
-/*!40000 ALTER TABLE `juegos_has_consolas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `juegos_has_consolas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `juegos_has_generos`
---
-
-DROP TABLE IF EXISTS `juegos_has_generos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `juegos_has_generos` (
-  `Juegos_idJuegos` int NOT NULL,
-  `Generos_idEtiquetas` int NOT NULL,
-  PRIMARY KEY (`Juegos_idJuegos`,`Generos_idEtiquetas`),
-  KEY `fk_Juegos_has_Generos_Generos1_idx` (`Generos_idEtiquetas`),
-  KEY `fk_Juegos_has_Generos_Juegos1_idx` (`Juegos_idJuegos`),
-  CONSTRAINT `fk_Juegos_has_Generos_Generos1` FOREIGN KEY (`Generos_idEtiquetas`) REFERENCES `generos` (`idEtiquetas`),
-  CONSTRAINT `fk_Juegos_has_Generos_Juegos1` FOREIGN KEY (`Juegos_idJuegos`) REFERENCES `juegos` (`idJuegos`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `juegos_has_generos`
---
-
-LOCK TABLES `juegos_has_generos` WRITE;
-/*!40000 ALTER TABLE `juegos_has_generos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `juegos_has_generos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `roles`
---
-
-DROP TABLE IF EXISTS `roles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `roles` (
-  `idRoles` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
-  PRIMARY KEY (`idRoles`)
+CREATE TABLE `rol` (
+  `idRol` int NOT NULL AUTO_INCREMENT,
+  `rol` varchar(45) NOT NULL,
+  PRIMARY KEY (`idRol`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `roles`
+-- Dumping data for table `rol`
 --
 
-LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'Manager'),(2,'Administrador'),(3,'Usuario');
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+LOCK TABLES `rol` WRITE;
+/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
+INSERT INTO `rol` VALUES (1,'manager'),(2,'administrador'),(3,'usuario');
+/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ventausuario`
+--
+
+DROP TABLE IF EXISTS `ventausuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ventausuario` (
+  `idVenta` int NOT NULL AUTO_INCREMENT,
+  `idUsuario` int NOT NULL,
+  `idJuego` int NOT NULL,
+  `precioVenta` decimal(10,0) NOT NULL,
+  `mensajeAdmin` varchar(255) DEFAULT NULL,
+  `idAdmin` int DEFAULT NULL,
+  `idEstados` int NOT NULL,
+  PRIMARY KEY (`idVenta`),
+  KEY `fk_Venta_Usuario1_idx` (`idUsuario`),
+  KEY `fk_Venta_Juego1_idx` (`idJuego`),
+  KEY `fk_Venta_Usuario2_idx` (`idAdmin`),
+  KEY `fk_ventausuario_estados1_idx` (`idEstados`),
+  CONSTRAINT `fk_Venta_Juego1` FOREIGN KEY (`idJuego`) REFERENCES `juego` (`idJuego`),
+  CONSTRAINT `fk_Venta_Usuario1` FOREIGN KEY (`idUsuario`) REFERENCES `cuenta` (`idCuenta`),
+  CONSTRAINT `fk_Venta_Usuario2` FOREIGN KEY (`idAdmin`) REFERENCES `cuenta` (`idCuenta`),
+  CONSTRAINT `fk_ventausuario_estados1` FOREIGN KEY (`idEstados`) REFERENCES `estados` (`idestados`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ventausuario`
+--
+
+LOCK TABLES `ventausuario` WRITE;
+/*!40000 ALTER TABLE `ventausuario` DISABLE KEYS */;
+INSERT INTO `ventausuario` VALUES (11,112,121,0,'El juego fue vendido',10,1),(12,113,122,0,'El juego fue vendido',11,2),(13,113,123,0,'El juego se encuentra en el estado de espera',10,3),(14,113,124,150,'El juego fue vendido',11,4),(15,113,125,96,'El juego se encuentra en el estado de espera',11,1),(16,113,126,162,'El juego fue vendido',11,2),(17,114,127,50,'El juego fue vendido',10,3),(18,114,128,150,'El juego se encuentra en el estado de espera',11,4),(19,114,129,60,'El juego fue vendido',10,1),(20,114,130,119,'El juego se encuentra en el estado de espera',10,2);
+/*!40000 ALTER TABLE `ventausuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -308,4 +246,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-08 18:44:56
+-- Dump completed on 2023-06-14 21:01:42

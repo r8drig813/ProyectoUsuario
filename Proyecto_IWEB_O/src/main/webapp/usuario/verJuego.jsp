@@ -1,12 +1,10 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.proyecto_iweb.models.beans.Juegos" %>
 <%@ page import="com.example.proyecto_iweb.models.beans.Cuentas" %>
-<%@ page import="com.example.proyecto_iweb.models.beans.ComprasVentas" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="juegos" scope="request" type="Juegos"/>
 
 <% ArrayList<Cuentas> listaPerfil = (ArrayList<Cuentas>) request.getAttribute("perfil");
-    ArrayList<ComprasVentas> listaNotificaciones = (ArrayList<ComprasVentas>) request.getAttribute("lista4");
 %>
 
 
@@ -79,12 +77,12 @@
             <li class="nav-item dropdown">
                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-chat-left-text text-light"></i>
-                    <span class="badge bg-danger badge-number"><%=listaNotificaciones.size()%></span>
+                    <span class="badge bg-danger badge-number"></span>
                 </a><!-- End Messages Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                     <li class="dropdown-header">
-                        Tienes <%=listaNotificaciones.size()%> mensajes nuevos ! ! !
+                        Tienes  mensajes nuevos ! ! !
                         <!--
                         <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todo</span></a>
                         -->
@@ -94,7 +92,7 @@
                     </li>
 
                     <li class="dropdown-footer">
-                        <a  href="<%=request.getContextPath()%>/JuegosServlet?a=listarNotificaciones">Ver todo los mensajes</a>
+                        <a  href="">Ver todo los mensajes</a>
                     </li>
 
                 </ul>
