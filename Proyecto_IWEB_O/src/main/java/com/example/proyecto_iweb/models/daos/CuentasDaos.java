@@ -1,11 +1,12 @@
 package com.example.proyecto_iweb.models.daos;
 
 import com.example.proyecto_iweb.models.beans.Cuentas;
+import com.example.proyecto_iweb.models.beans.Roles;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class CuentasDaos {
+public class CuentasDaos extends DaoBase{
  /*-------------------USUARIOS----------------------------*/
     public ArrayList<Cuentas> listarCuentas(){
         ArrayList<Cuentas> lista = new ArrayList<>();
@@ -174,6 +175,79 @@ public class CuentasDaos {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Cuentas validateUsernameAndPassword(String correo, String password) {
+
+        Cuentas cuentas = null;
+
+        String sql = "SELECT * FROM cuenta c \n" +
+                "inner join credencial cr  on  cr.idCuenta = c.idCuenta  \n" +
+                "where cr.correo = ? and and cr.contraseniaHashed = sha2(?,256)";
+
+        try (Connection connection = getConection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, correo);
+            pstmt.setString(2, password);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                if (rs.next()) {
+                    cuentas = obtenerCuentas(rs.getInt(1));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return cuentas;
+    }
+
+    public Cuentas obtenerCuentas(int idCuenta) {
+
+        Cuentas cuentas = null;
+
+        String sql = "select * from cuenta c\n" +
+                "inner join rol r on c.idRol = r.idRol\n" +
+                "where c.idCuenta = ?;";
+
+        try (Connection conn = this.getConection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idCuenta);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                if (rs.next()) {
+                    cuentas = new Cuentas();
+                    fetchEmployeeData(cuentas, rs);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return cuentas;
+    }
+
+    private void fetchEmployeeData(Cuentas cuentas, ResultSet rs) throws SQLException {
+
+        cuentas.setIdCuentas(rs.getInt(1));
+        cuentas.setNombre(rs.getString(2));
+        cuentas.setApellido(rs.getString(3));
+        cuentas.setNickname(rs.getString(4));
+        cuentas.setDireccion(rs.getString(5));
+        cuentas.setCorreo(rs.getString(6));
+        cuentas.setFoto(rs.getString(7));
+        cuentas.setDescripcion(rs.getString(8));
+        cuentas.setDesabilitado(rs.getBoolean(9));
+
+        Roles roles = new Roles();
+        roles.setIdRol(rs.getInt(11));
+        roles.setRol(rs.getString(12));
+        cuentas.setRoles(roles);
+
     }
 
     /*public ArrayList<Cuentas> perfil(){
