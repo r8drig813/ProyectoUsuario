@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: rodri
-  Date: 15/06/2023
-  Time: 15:05
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +13,7 @@
 
     <!-- Estilos CSS -->
     <!--Importando estilos CSS-->
-    <link rel="stylesheet" href="/estilos/sistema.css">
+    <link rel="stylesheet" href="estilos/sistema.css">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -32,7 +25,7 @@
     <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -61,21 +54,25 @@
                                         <p class="text-center small">Ingrese su nombre de usuario y contraseña para iniciar sesión</p>
                                     </div>
 
-                                    <form class="row g-3 needs-validation" novalidate>
+                                    <form method="POST" action="<%=request.getContextPath()%>/login">
 
                                         <div class="col-12">
                                             <label for="yourUsername" class="form-label">Usuario</label>
                                             <div class="input-group has-validation">
                                                 <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                                <input type="text" name="username" class="form-control" id="yourUsername" required>
+                                                <input type="text" name="inputEmail" class="form-control" id="yourUsername" required placeholder="Correo">
+                                                <% if (request.getAttribute("error") != null) { %>
                                                 <div class="invalid-feedback">Por favor ingrese su usuario!</div>
+                                                <% } %>
                                             </div>
                                         </div>
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Contraseña</label>
-                                            <input type="password" name="password" class="form-control" id="yourPassword" required>
+                                            <input type="password" name="inputPassword" class="form-control" id="yourPassword" required placeholder="Password">
+                                            <% if (request.getAttribute("error") != null) { %>
                                             <div class="invalid-feedback">Por favor ingrese su contraseña!</div>
+                                            <% } %>
                                         </div>
 
                                         <div class="col-12">
