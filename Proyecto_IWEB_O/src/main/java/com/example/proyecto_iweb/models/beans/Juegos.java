@@ -16,7 +16,6 @@ public class Juegos {
      private String consola;
      private String genero;
 
-
     public int getIdJuegos() {
         return idJuegos;
     }
@@ -81,7 +80,7 @@ public class Juegos {
         this.habilitado = habilitado;
     }
 
-    public boolean getExistente() {
+    public boolean isExistente() {
         return existente;
     }
 

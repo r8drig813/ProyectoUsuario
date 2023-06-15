@@ -1,6 +1,8 @@
 package com.example.proyecto_iweb.models.daos;
 
 import com.example.proyecto_iweb.models.beans.*;
+import com.example.proyecto_iweb.models.dtos.Consolas;
+import com.example.proyecto_iweb.models.dtos.Generos;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -161,6 +163,66 @@ public class JuegosDaos {
         }
 
         return ofertas;
+    }
+
+    public ArrayList<Consolas> consolas(){
+
+        ArrayList<Consolas> lista = new ArrayList<>();
+        String sql = "select distinct consola from juego";
+        String url = "jdbc:mysql://localhost:3306/mydb";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = DriverManager.getConnection(url, "root", "root");
+             Statement stmt = connection.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                Consolas consolas = new Consolas();
+
+                consolas.setNombre(resultSet.getString(1));
+                lista.add(consolas);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    public ArrayList<Generos> generos(){
+
+        ArrayList<Generos> lista = new ArrayList<>();
+        String sql = "select distinct genero from juego";
+        String url = "jdbc:mysql://localhost:3306/mydb";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = DriverManager.getConnection(url, "root", "root");
+             Statement stmt = connection.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+
+            while (resultSet.next()) {
+                Generos generos = new Generos();
+
+                generos.setNombre(resultSet.getString(1));
+                lista.add(generos);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return lista;
     }
 
 
@@ -492,7 +554,7 @@ public class JuegosDaos {
 
     // Agregar Juegos Para vender
 
-   /* public void guardar(JuegosVendidosNuevos juegosVendidosNuevos) {
+   public void guardar(Juegos juegos ) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -500,20 +562,26 @@ public class JuegosDaos {
         }
 
         String url = "jdbc:mysql://localhost:3306/mydb";
-        String sql = "INSERT INTO compras_ventas (precio_total,fecha_cv,descripcionEstado,cantidad,Estados_idEstados,Juegos_idJuegos,compra_o_venta,descripcionJuego) VALUES (?,?,?,?,1,106,1,null)";
+        String sql = "INSERT INTO juego (nombre,descripcion,precio,descuento,foto,existente,habilitado,consola,genero,stock) VALUES (?,?,?,0,?,0,0,?,?,1)";
         try (Connection connection = DriverManager.getConnection(url, "root", "root");
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+             PreparedStatement pstmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)) {
 
-            pstmt.setInt(1, juegosVendidosNuevos.getPrecio());
-            pstmt.setString(2, juegosVendidosNuevos.getFecha_sudida());
-            pstmt.setString(3, juegosVendidosNuevos.getDescripcion());
-            pstmt.setInt(4, juegosVendidosNuevos.getCantidad());
+            pstmt.setString(2, juegos.getNombre());
+            pstmt.setString(3,juegos.getDescripcion());
+            pstmt.setDouble(4, juegos.getPrecio());
+            pstmt.setString(5, juegos.getFoto());
+            pstmt.setBoolean(6,juegos.isHabilitado());
+            pstmt.setBoolean(7,juegos.isExistente());
+            pstmt.setString(8,juegos.getConsola());
+            pstmt.setString(9,juegos.getGenero());
 
             pstmt.executeUpdate();
+            ResultSet rsKeys= pstmt.getGeneratedKeys();
+            int idJuego = rsKeys.getInt(1);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }*/
+    }
 
 }

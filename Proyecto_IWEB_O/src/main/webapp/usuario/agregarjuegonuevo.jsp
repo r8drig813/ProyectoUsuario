@@ -133,12 +133,16 @@
                 <input type="text" class="form-control" name="descripcion" id="descripcion">
             </div>
             <div class="mb-3">
-                <label for="cantidad">Cantidad a Subir</label>
-                <input type="text" class="form-control" name="cantidad" id="cantidad">
+                <label for="consola">Consola</label>
+                <input type="text" class="form-control" name="consola" id="consola">
             </div>
             <div class="mb-3">
-                <label for="fecha">Fecha en que lo esta subiendo (00-00-00)</label>
-                <input type="text" class="form-control" name="fecha" id="fecha">
+                <label for="genero">Genero</label>
+                <input type="text" class="form-control" name="genero" id="genero">
+            </div>
+            <div class="mb-3">
+                <label for="foto" class="form-label">Añadir foto del juego</label>
+                <input class="form-control" type="file" id="foto" name="foto">
             </div>
             <a class="btn btn-danger" href="<%=request.getContextPath()%>/JuegosServlet?a=listar1">Cancelar</a>
             <button type="submit" class="btn btn-primary">Guardar</button>

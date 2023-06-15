@@ -3,6 +3,7 @@ package com.example.proyecto_iweb.controllers;
 import java.io.*;
 
 import com.example.proyecto_iweb.models.beans.Cuentas;
+import com.example.proyecto_iweb.models.beans.Juegos;
 import com.example.proyecto_iweb.models.beans.VentaUsuario;
 import com.example.proyecto_iweb.models.daos.CuentasDaos;
 import com.example.proyecto_iweb.models.daos.JuegosDaos;
@@ -141,8 +142,9 @@ public class JuegosServlet extends HttpServlet {
                 request.getRequestDispatcher("usuario/indexUsuarioOficial.jsp").forward(request, response);
                 break;
             case "c":
-                //JuegosVendidosNuevos juegosVendidosNuevos = parseJuegosVendidosNuevos(request);
-               // juegosDaos.guardar(juegosVendidosNuevos);
+
+                Juegos juegos = parseJuegosPosteadosNuevos(request);
+                juegosDaos.guardar(juegos);
 
                 response.sendRedirect(request.getContextPath() + "/JuegosServlet?a=listar1");
                 break;
@@ -175,29 +177,30 @@ public class JuegosServlet extends HttpServlet {
         return ventaUsuario;
     }*/
 
-    /*public JuegosVendidosNuevos parseJuegosVendidosNuevos(HttpServletRequest request) {
+    public Juegos parseJuegosPosteadosNuevos(HttpServletRequest request) {
 
-        JuegosVendidosNuevos juegosVendidosNuevos = new JuegosVendidosNuevos();
-        //String nombre = request.getParameter("nombre");
+        Juegos juegos = new Juegos();
+        String nombre = request.getParameter("nombre");
         String precio = request.getParameter("precio");
+        String consola = request.getParameter("consola");
+        String genero = request.getParameter("genero");
+        //String foto = request.getParameter("foto");
         String descripcion = request.getParameter("descripcion");
-        String cantidad = request.getParameter("cantidad");
-        String fecha = request.getParameter("fecha");
-
 
         try {
 
-            //juegosVendidosNuevos.setPrecio(Integer.parseInt(precio));
-            juegosVendidosNuevos.setPrecio(Integer.parseInt(precio));
-            juegosVendidosNuevos.setDescripcion(descripcion);
-            juegosVendidosNuevos.setCantidad(Integer.parseInt(cantidad));
-            juegosVendidosNuevos.setFecha_sudida(fecha);
+            juegos.setNombre(nombre);
+            juegos.setPrecio(Integer.parseInt(precio));
+            juegos.setDescripcion(descripcion);
+            juegos.setConsola(consola);
+            juegos.setGenero(genero);
+            //juegos.setFoto(foto);
 
-            return juegosVendidosNuevos;
+            return juegos;
 
         } catch (NumberFormatException e) {
 
         }
-        return juegosVendidosNuevos;
-    }*/
+        return juegos;
+    }
 }
