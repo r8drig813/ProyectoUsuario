@@ -104,12 +104,12 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="img/usuario/usuario1.webp" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2 text-light"><%for (Cuentas c : listaPerfil) {%>  <%=c.getNombre()%> </span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2 text-light">Si</span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6><%=c.getNombre()%> </h6>
+                        <h6>Dylan</h6>
                         <span>Usuario</span>
                     </li>
                     <li>
@@ -117,7 +117,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="<%=request.getContextPath()%>/CuentasServlet?a=perfil&id=<%=c.getIdCuentas()%> <% } %>">
+                        <a class="dropdown-item d-flex align-items-center" href="">
                             <i class="bi bi-person"></i>
                             <span>Mi Perfil</span>
                         </a>
@@ -207,7 +207,7 @@
                     <div id="descripcion_juego">
                         <p><%=juegos.getDescripcion()%></p>
                         <p>Raiting:  </p>
-                        <p><%=juegos.getStock()%></p>
+                        <p>Stock: <%=juegos.getStock()%></p>
                     </div>
                 </div>
 

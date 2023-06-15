@@ -32,7 +32,7 @@ public class JuegosServlet extends HttpServlet {
                 requestDispatcher.forward(request, response);
                 break;
             case "listar1":
-                //request.setAttribute("lista", juegosDaos.listarJuegos());
+                request.setAttribute("lista", juegosDaos.listarJuegos());
                 // request.setAttribute("perfil", cuentasDaos.perfil());
                 //request.setAttribute("lista4",juegosDaos.listarNotificaciones());
                 RequestDispatcher requestDispatcher1 = request.getRequestDispatcher("usuario/postearUsuariosOficial.jsp");
@@ -104,7 +104,7 @@ public class JuegosServlet extends HttpServlet {
                 request.setAttribute("lista2", juegosDaos.listarVendidos());
                 //request.setAttribute("lista4",juegosDaos.listarNotificaciones());
                 //request.setAttribute("perfil", cuentasDaos.perfil());
-                //request.setAttribute("listar",juegosDaos.listarOfertas());
+                request.setAttribute("ofertas",juegosDaos.listarOfertas());
                 request.getRequestDispatcher("usuario/ofertasUsuarioOficial.jsp").forward(request,response);
                 break;
             case "actualizarVenta":
@@ -132,12 +132,12 @@ public class JuegosServlet extends HttpServlet {
         switch (action) {
             case "b":
                 String textoBuscar = request.getParameter("textoBuscar");
-                //request.setAttribute("lista", juegosDaos.buscarPorTitle(textoBuscar));
+                request.setAttribute("lista", juegosDaos.buscarPorTitle(textoBuscar));
                 request.getRequestDispatcher("usuario/postearUsuariosOficial.jsp").forward(request, response);
                 break;
             case "b1":
                 String textoBuscar1 = request.getParameter("buscador");
-                //request.setAttribute("lista", juegosDaos.buscarPorTitle(textoBuscar1));
+                request.setAttribute("lista", juegosDaos.buscarPorTitle(textoBuscar1));
                 request.getRequestDispatcher("usuario/indexUsuarioOficial.jsp").forward(request, response);
                 break;
             case "c":
