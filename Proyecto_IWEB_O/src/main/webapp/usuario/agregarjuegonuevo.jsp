@@ -5,6 +5,8 @@
 <% ArrayList<Juegos> lista = (ArrayList<Juegos>) request.getAttribute("lista");
     ArrayList<Cuentas> listaPerfil = (ArrayList<Cuentas>) request.getAttribute("perfil");
 %>
+<jsp:useBean id="usuarioLog" scope="session" type="com.example.proyecto_iweb.models.beans.Cuentas"
+             class="com.example.proyecto_iweb.models.beans.Cuentas"/>
 
 <html>
 <head>

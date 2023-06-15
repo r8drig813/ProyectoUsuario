@@ -5,7 +5,8 @@
 <% ArrayList<Juegos> lista = (ArrayList<Juegos>) request.getAttribute("ofertas");
   ArrayList<Cuentas> listaPerfil = (ArrayList<Cuentas>) request.getAttribute("perfil");
 %>
-
+<jsp:useBean id="usuarioLog" scope="session" type="com.example.proyecto_iweb.models.beans.Cuentas"
+             class="com.example.proyecto_iweb.models.beans.Cuentas"/>
 <html>
 <head>
   <meta charset="utf-8">
@@ -98,47 +99,57 @@
 
       <li class="nav-item dropdown pe-3">
 
-        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="img/usuario/usuario1.webp" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block dropdown-toggle ps-2 text-light">dylan  </span>
-        </a><!-- End Profile Iamge Icon -->
+        <div class="form-inline font-italic my-2 my-lg-0">
+          <% if (usuarioLog.getIdCuentas() > 0) { //esto logueado %>
+          <span></span>
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="img/usuario/usuario1.webp" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2 text-light"><%=usuarioLog.getNombre() + " " + usuarioLog.getApellido()%>  </span>
+          </a><!-- End Profile Iamge Icon -->
 
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-          <li class="dropdown-header">
-            <h6>dylan </h6>
-            <span>Usuario</span>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6><%=usuarioLog.getNombre() + " " + usuarioLog.getApellido()%> </h6>
+              <span>Usuario</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="<%=request.getContextPath()%>/JuegosServlet?a=perfil">
-              <i class="bi bi-person"></i>
-              <span>Mi Perfil</span>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="<%=request.getContextPath()%>/JuegosServlet?a=perfil">
+                <i class="bi bi-person"></i>
+                <span>Mi Perfil</span>
 
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#profile-edit">
+                <i class="bi bi-gear"></i>
+                <span>Configuración</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="cerrarLoguinOficial.html">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+            <a href="<%=request.getContextPath()%>/login?action=logout">(Cerrar sesión)</a>
+              <% } else { //no estoy loggedIn %>
+            <a class="nav-link" style="color: white;" href="<%=request.getContextPath()%>/login">
+              (Iniciar Sesión)
             </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="#profile-edit">
-              <i class="bi bi-gear"></i>
-              <span>Configuración</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-
-          <li>
-            <a class="dropdown-item d-flex align-items-center" href="cerrarLoguinOficial.html">
-              <i class="bi bi-box-arrow-right"></i>
-              <span>Sign Out</span>
-            </a>
-          </li>
+              <% } %>
+        </div>
 
         </ul><!-- End Profile Dropdown Items -->
       </li><!-- End Profile Nav -->

@@ -1,15 +1,15 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.proyecto_iweb.models.beans.Juegos" %>
 <%@ page import="com.example.proyecto_iweb.models.beans.Cuentas" %>
-<%@ page import="com.example.proyecto_iweb.models.beans.ComprasVentas" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% ArrayList<Juegos> lista = (ArrayList<Juegos>) request.getAttribute("lista");
   ArrayList<Cuentas> listaPerfil = (ArrayList<Cuentas>) request.getAttribute("perfil");
-  ArrayList<ComprasVentas> listaNotificaciones = (ArrayList<ComprasVentas>) request.getAttribute("lista4");
+  //ArrayList<ComprasVentas> listaNotificaciones = (ArrayList<ComprasVentas>) request.getAttribute("lista4");
 
 %>
 <jsp:useBean id="vendidos" scope="request" type="com.example.proyecto_iweb.models.beans.JuegosVendidosNuevos"/>
-
+<jsp:useBean id="usuarioLog" scope="session" type="com.example.proyecto_iweb.models.beans.Cuentas"
+             class="com.example.proyecto_iweb.models.beans.Cuentas"/>
 <html>
 <head>
   <meta charset="utf-8">
