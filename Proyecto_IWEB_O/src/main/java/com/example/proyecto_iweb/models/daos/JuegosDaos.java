@@ -85,7 +85,7 @@ public class JuegosDaos {
         }
         return juegos;
     }
-    /*
+
     public ArrayList<Juegos> buscarPorTitle(String title) {
         ArrayList<Juegos> lista = new ArrayList<>();
 
@@ -95,7 +95,7 @@ public class JuegosDaos {
             e.printStackTrace();
         }
 
-        String sql = "select * from juegos where nombre like ?";
+        String sql = "select * from juego where nombre like ?";
         String url = "jdbc:mysql://localhost:3306/mydb";
         try (Connection connection = DriverManager.getConnection(url, "root", "root");
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -111,10 +111,12 @@ public class JuegosDaos {
                     juegos.setDescripcion(resultSet.getString(3));
                     juegos.setPrecio(resultSet.getDouble(4));
                     juegos.setDescuento(resultSet.getDouble(5));
-                    juegos.setStock(resultSet.getInt(6));
-                    juegos.setFoto(resultSet.getString(7));
-                    juegos.setRetirar_juego(resultSet.getBoolean(8));
-                    juegos.setJuego_sugerido(resultSet.getBoolean(9));
+                    juegos.setStock(resultSet.getInt(11));
+                    juegos.setFoto(resultSet.getString(6));
+                    juegos.setExistente(resultSet.getBoolean(7));
+                    juegos.setHabilitado(resultSet.getBoolean(8));
+                    juegos.setConsola(resultSet.getString(9));
+                    juegos.setGenero(resultSet.getString(10));
                     lista.add(juegos);
                 }
             }
@@ -126,6 +128,41 @@ public class JuegosDaos {
 
         return lista;
     }
+
+    public ArrayList<Juegos> listarOfertas() {
+        ArrayList<Juegos> ofertas = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        String sql1 = "select * from juego where descuento != 0";
+        String url = "jdbc:mysql://localhost:3306/mydb";
+        try (Connection connection = DriverManager.getConnection(url, "root", "root");
+             Statement stmt = connection.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql1)) {
+
+            while (resultSet.next()) {
+                Juegos juegoOferta = new Juegos();
+
+                // Obtenemos los valores
+                juegoOferta.setIdJuegos(resultSet.getInt(1));
+                juegoOferta.setNombre(resultSet.getString(2));
+                juegoOferta.setPrecio(resultSet.getInt(4));
+                juegoOferta.setDescuento(resultSet.getInt(5));
+                juegoOferta.setStock(resultSet.getInt(11));
+                juegoOferta.setFoto(resultSet.getString(6));
+                ofertas.add(juegoOferta);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return ofertas;
+    }
+
 
     /*Public ArrayList<Juegos> listarCola(){
         ArrayList<Juegos> lista = new ArrayList<>();
