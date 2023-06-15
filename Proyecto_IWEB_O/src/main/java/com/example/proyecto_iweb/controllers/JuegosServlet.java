@@ -110,13 +110,13 @@ public class JuegosServlet extends HttpServlet {
             case "actualizarVenta":
                 String id3 =request.getParameter("id");
                 juegosDaos.actualizarEstadoVenta(id3);
-                response.sendRedirect(request.getContextPath() + "/JuegosServlet");
+                response.sendRedirect(request.getContextPath() + "/JuegosServlet?a=vendidos");
                 break;
 
             case "eliminarVenta":
                 String id4 =request.getParameter("id");
                 juegosDaos.eliminarVenta(id4);
-                response.sendRedirect(request.getContextPath() + "/JuegosServlet");
+                response.sendRedirect(request.getContextPath() + "/JuegosServlet?a=vendidos");
                 break;
 
         }

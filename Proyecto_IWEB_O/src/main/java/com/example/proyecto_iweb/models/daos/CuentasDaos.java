@@ -183,7 +183,7 @@ public class CuentasDaos extends DaoBase{
 
         String sql = "SELECT * FROM cuenta c \n" +
                 "inner join credencial cr  on  cr.idCuenta = c.idCuenta  \n" +
-                "where cr.correo = ? and and cr.contraseniaHashed = sha2(?,256)";
+                "where cr.correo = ? and cr.contraseniaHashed = sha2(?,256)";
 
         try (Connection connection = getConection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {

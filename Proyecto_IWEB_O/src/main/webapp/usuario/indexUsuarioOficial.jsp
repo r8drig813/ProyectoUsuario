@@ -5,6 +5,8 @@
 <% ArrayList<Juegos> lista = (ArrayList<Juegos>) request.getAttribute("lista");
     ArrayList<Cuentas> listaPerfil = (ArrayList<Cuentas>) request.getAttribute("perfil");
 %>
+<jsp:useBean id="usuarioLog" scope="session" type="com.example.proyecto_iweb.models.beans.Cuentas"
+             class="com.example.proyecto_iweb.models.beans.Cuentas"/>
 
 <html>
 <head>
@@ -62,26 +64,26 @@
                 </a>
             </li>
 
-            <!-- ICONO DE TIENDA Y NOTIFICACIÓN-->
+            <!-- ICONO DE TIENDA Y NOTIFICACIÓN
             <li class="nav-item">
                 <a class="nav-link nav-icon" href="usuario/carrito.jsp">
                     <i class="bi bi-cart text-light"></i>
                     <span class="badge bg-success badge-number"></span>
                 </a>
-            </li>
+            </li>-->
 
-            <li class="nav-item dropdown">
-                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-chat-left-text text-light"></i>
-                    <span class="badge bg-danger badge-number">2</span>
-                </a><!-- End Messages Icon -->
+            <!--<li class="nav-item dropdown">
+                 <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                     <i class="bi bi-chat-left-text text-light"></i>
+                     <span class="badge bg-danger badge-number">2</span>
+                 </a>nd Messages Icon
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                     <li class="dropdown-header">
                         Tienes 2 mensajes nuevos ! ! !
-                        <!--
+
                         <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todo</span></a>
-                        -->
+
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -93,58 +95,70 @@
 
                 </ul>
 
-            </li>
+            </li>-->
 
 
             <li class="nav-item dropdown pe-3">
 
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="img/usuario/usuario1.webp" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2 text-light">dylan  </span>
-                </a><!-- End Profile Iamge Icon -->
+                <div class="form-inline font-italic my-2 my-lg-0">
+                    <% if (usuarioLog.getIdCuentas() > 0) { //esto logueado %>
+                    <span><%=usuarioLog.getNombre() + " " + usuarioLog.getApellido()%></span>
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="img/usuario/usuario1.webp" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2 text-light">dylan  </span>
+                    </a><!-- End Profile Iamge Icon -->
 
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                    <li class="dropdown-header">
-                        <h6>dylan </h6>
-                        <span>Usuario</span>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>dylan </h6>
+                            <span>Usuario</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
 
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="<%=request.getContextPath()%>/JuegosServlet?a=perfil">
-                            <i class="bi bi-person"></i>
-                            <span>Mi Perfil</span>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="<%=request.getContextPath()%>/JuegosServlet?a=perfil">
+                                <i class="bi bi-person"></i>
+                                <span>Mi Perfil</span>
 
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
 
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#profile-edit">
-                            <i class="bi bi-gear"></i>
-                            <span>Configuración</span>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#profile-edit">
+                                <i class="bi bi-gear"></i>
+                                <span>Configuración</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
 
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="cerrarLoguinOficial.html">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Sign Out</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="cerrarLoguinOficial.html">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+                    <a href="<%=request.getContextPath()%>/login?action=logout">(Cerrar sesión)</a>
+                    <% } else { //no estoy loggedIn %>
+                    <a class="nav-link" style="color: white;" href="<%=request.getContextPath()%>/login">
+                        (Iniciar Sesión)
+                    </a>
+                    <% } %>
+                </div>
 
-                </ul><!-- End Profile Dropdown Items -->
-            </li><!-- End Profile Nav -->
+
+
+                </ul>
+            </li>
 
         </ul>
-    </nav><!-- End Icons Navigation -->
+    </nav>
 
 </header>
 

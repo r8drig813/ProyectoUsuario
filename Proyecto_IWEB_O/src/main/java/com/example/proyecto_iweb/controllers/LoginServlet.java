@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
                 Cuentas cuentas = (Cuentas) session.getAttribute("usuarioLog");
 
                 if(cuentas.getIdCuentas()>0){ //estoy loggedIn
-                    resp.sendRedirect(req.getContextPath() + "/EmployeeServlet");
+                    resp.sendRedirect(req.getContextPath() + "/JuegosServlet");
                 }else{ // no estoy loggedId
                     RequestDispatcher dispatcher = req.getRequestDispatcher("loginPage.jsp");
                     dispatcher.forward(req, resp);
@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 
             resp.sendRedirect(req.getContextPath());
         } else { //usuario o password incorrectos
-            req.setAttribute("error", "Correo o password incorrectos");
+            req.setAttribute("error", "Usuario o password incorrectos");
             req.getRequestDispatcher("loginPage.jsp").forward(req, resp);
         }
     }
